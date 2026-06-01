@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>數學探險棋</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="top-bar">
+        <div>
+          <p class="eyebrow">100 以內加減乘除</p>
+          <h1>數學探險棋</h1>
+        </div>
+        <div class="round-panel">
+          <span id="turnLabel">準備開始</span>
+          <strong id="statusLabel">選擇玩家人數</strong>
+        </div>
+      </section>
+
+      <section id="setupView" class="setup-view">
+        <div class="setup-copy">
+          <h2>選擇玩家和角色</h2>
+          <p>答對題目才能擲骰前進。先抵達終點的玩家獲勝。</p>
+        </div>
+
+        <div class="player-select" aria-label="選擇玩家人數">
+          <button class="player-count active" data-players="1">1 人</button>
+          <button class="player-count" data-players="2">2 人</button>
+          <button class="player-count" data-players="3">3 人</button>
+          <button class="player-count" data-players="4">4 人</button>
+        </div>
+
+        <div id="characterSetup" class="character-setup" aria-label="選擇角色"></div>
+
+        <div class="difficulty-select" aria-label="選擇難度">
+          <button class="difficulty-option active" data-difficulty="easy">
+            <strong>小一模式</strong>
+            <span>20 以內加減法</span>
+          </button>
+          <button class="difficulty-option" data-difficulty="normal">
+            <strong>小二模式</strong>
+            <span>100 以內加減法</span>
+          </button>
+          <button class="difficulty-option" data-difficulty="challenge">
+            <strong>小三挑戰</strong>
+            <span>加減乘除混合</span>
+          </button>
+        </div>
+
+        <button id="startButton" class="primary-action">開始遊戲</button>
+      </section>
+
+      <section id="gameView" class="game-view hidden">
+        <div class="board-wrap">
+          <div class="board-label board-label-start">起點</div>
+          <div id="board" class="board" aria-label="遊戲棋盤"></div>
+          <div class="board-label board-label-finish">終點</div>
+        </div>
+
+        <aside class="side-panel">
+          <div class="question-card">
+            <p class="question-tag" id="questionTag">本回合題目</p>
+            <div id="questionText" class="question-text">?</div>
+            <div id="answers" class="answers"></div>
+          </div>
+
+          <div class="dice-panel">
+            <button id="rollButton" class="primary-action" disabled>擲骰子</button>
+            <div id="diceValue" class="dice-value" aria-label="骰子">-</div>
+          </div>
+
+          <div id="messageBox" class="message-box">請先答題。</div>
+
+          <button id="restartButton" class="secondary-action">重新開始</button>
+        </aside>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>

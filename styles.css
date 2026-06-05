@@ -22,6 +22,7 @@
 body {
   margin: 0;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   color: var(--ink);
   font-family: "Segoe UI", "Noto Sans TC", Arial, sans-serif;
@@ -39,6 +40,7 @@ button {
 .app-shell {
   width: min(1280px, 100%);
   height: 100vh;
+  height: 100dvh;
   margin: 0 auto;
   padding: 14px 18px;
   display: grid;
@@ -749,7 +751,7 @@ h1 {
 
 .game-view {
   display: grid;
-  grid-template-columns: minmax(660px, 1fr) 360px;
+  grid-template-columns: minmax(610px, 1fr) minmax(300px, 340px);
   gap: 14px;
   align-items: stretch;
   min-height: 0;
@@ -765,6 +767,7 @@ h1 {
   grid-template-rows: auto minmax(0, 1fr) auto;
   gap: 6px;
   min-height: 0;
+  overflow: auto;
   padding: 12px;
   border-radius: 8px;
   background:
@@ -798,16 +801,16 @@ h1 {
 .board {
   display: grid;
   grid-template-columns: repeat(10, minmax(54px, 1fr));
-  grid-template-rows: repeat(3, minmax(0, 1fr));
-  gap: 6px;
-  height: 100%;
-  min-height: 0;
+  grid-auto-rows: minmax(54px, 1fr);
+  gap: 5px;
+  min-width: 585px;
+  min-height: 290px;
 }
 
 .tile {
   position: relative;
-  aspect-ratio: 1 / 1;
-  padding: 6px;
+  min-height: 54px;
+  padding: 4px;
   border-radius: 8px;
   border: 2px solid rgba(108, 151, 74, 0.45);
   background:
@@ -846,11 +849,11 @@ h1 {
 
 .tile-number {
   position: absolute;
-  top: 5px;
-  left: 7px;
+  top: 4px;
+  left: 5px;
   color: var(--muted);
   font-weight: 900;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .tile-icon {
@@ -971,16 +974,16 @@ h1 {
 
 .pieces {
   position: absolute;
-  left: 6px;
-  right: 6px;
-  bottom: 6px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
   display: grid;
-  grid-template-columns: repeat(2, 22px);
-  grid-auto-rows: 22px;
+  grid-template-columns: repeat(2, 20px);
+  grid-auto-rows: 20px;
   justify-content: center;
   align-content: end;
   gap: 2px;
-  min-height: 46px;
+  min-height: 42px;
 }
 
 .piece {
@@ -997,11 +1000,21 @@ h1 {
 }
 
 .pieces .piece {
-  width: 22px;
-  height: 22px;
-  border-radius: 8px;
-  font-size: 15px;
-  border-width: 1px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 13px;
+  border-width: 2px;
+  overflow: hidden;
+  background: #fffdf5;
+}
+
+.piece-token {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
 }
 
 .piece-moving {
@@ -1241,7 +1254,7 @@ h1 {
   line-height: 1.45;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 980px) {
   body {
     overflow: auto;
   }
@@ -1261,6 +1274,98 @@ h1 {
 
   .question-card {
     grid-column: span 2;
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1120px) and (orientation: landscape) {
+  .app-shell {
+    padding: 8px 10px;
+  }
+
+  .top-bar {
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .round-panel {
+    min-width: 280px;
+    padding: 6px 10px;
+  }
+
+  .turn-avatar {
+    width: 72px;
+    height: 72px;
+  }
+
+  .turn-photo {
+    width: 64px;
+    height: 70px;
+  }
+
+  .round-panel strong {
+    padding-left: 74px;
+    font-size: 15px;
+  }
+
+  .game-view {
+    grid-template-columns: minmax(575px, 1fr) 300px;
+    gap: 10px;
+  }
+
+  .board-wrap {
+    padding: 8px;
+    gap: 4px;
+  }
+
+  .board-label {
+    font-size: 11px;
+    padding: 2px 7px;
+  }
+
+  .board {
+    grid-template-columns: repeat(10, minmax(52px, 1fr));
+    grid-auto-rows: minmax(52px, 1fr);
+    min-width: 555px;
+    min-height: 278px;
+    gap: 4px;
+  }
+
+  .tile {
+    min-height: 52px;
+  }
+
+  .side-panel {
+    padding: 9px;
+    gap: 8px;
+  }
+
+  .question-card {
+    padding: 10px;
+  }
+
+  .question-text {
+    min-height: 48px;
+    font-size: 30px;
+  }
+
+  .answer-button {
+    min-height: 44px;
+    font-size: 20px;
+  }
+
+  .message-box {
+    min-height: 58px;
+    max-height: 78px;
+    font-size: 14px;
   }
 }
 
@@ -1291,7 +1396,8 @@ h1 {
   }
 
   .board {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(58px, 1fr));
+    min-width: 315px;
   }
 
   .tile {

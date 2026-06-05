@@ -1,10 +1,10 @@
-const boardSize = 30;
+const boardSize = 50;
 
 const characters = [
-  { id: "penguin", name: "企鵝", face: "🐧" },
-  { id: "raccoon", name: "浣熊", face: "🦝" },
-  { id: "deer", name: "花鹿", face: "🦌" },
-  { id: "dolphin", name: "海豚", face: "🐬" },
+  { id: "penguin", name: "企鵝", face: "🐧", token: "assets/token-penguin.png" },
+  { id: "raccoon", name: "浣熊", face: "🦝", token: "assets/token-raccoon.png" },
+  { id: "deer", name: "花鹿", face: "🦌", token: "assets/token-deer.png" },
+  { id: "dolphin", name: "海豚", face: "🐬", token: "assets/token-dolphin.png" },
 ];
 
 const playerColors = ["p0", "p1", "p2", "p3"];
@@ -16,6 +16,11 @@ const specialTiles = {
   19: { type: "star", label: "星星格，前進 2 格" },
   23: { type: "bomb", label: "炸彈格，後退 1 格" },
   27: { type: "gift", label: "禮物格，下一次答對多走 1 格" },
+  32: { type: "star", label: "星星格，前進 2 格" },
+  36: { type: "bomb", label: "炸彈格，後退 1 格" },
+  41: { type: "gift", label: "禮物格，下一次答對多走 1 格" },
+  46: { type: "star", label: "星星格，前進 2 格" },
+  48: { type: "bomb", label: "炸彈格，後退 1 格" },
 };
 
 const state = {
@@ -115,7 +120,7 @@ function startGame() {
     return {
       name: `玩家 ${index + 1}`,
       character,
-      position: 1,
+      position: 0,
       correct: 0,
       bonusSteps: 0,
     };
@@ -153,12 +158,17 @@ function placePieces() {
   });
 
   state.players.forEach((player, index) => {
-    const tile = document.querySelector(`[data-tile="${player.position}"] .pieces`);
+    const visiblePosition = Math.max(1, player.position);
+    const tile = document.querySelector(`[data-tile="${visiblePosition}"] .pieces`);
     if (!tile) return;
     const piece = document.createElement("span");
     piece.className = `piece ${playerColors[index]} ${state.movingPlayerIndex === index ? "piece-moving" : ""}`;
-    piece.title = `${player.name} ${player.character.name}`;
-    piece.textContent = player.character.face;
+    piece.title = `${player.name} ${player.character.name}，位置 ${player.position}`;
+    if (player.character.token) {
+      piece.innerHTML = `<img class="piece-token" src="${player.character.token}" alt="${player.character.name}" />`;
+    } else {
+      piece.textContent = player.character.face;
+    }
     tile.appendChild(piece);
   });
 }
@@ -333,10 +343,10 @@ async function animatePlayerSteps(player, steps, direction) {
 
   for (let step = 0; step < steps; step += 1) {
     const nextPosition = player.position + direction;
-    player.position = Math.max(1, Math.min(boardSize, nextPosition));
+    player.position = Math.max(0, Math.min(boardSize, nextPosition));
     placePieces();
     await sleep(360);
-    if (player.position === boardSize || player.position === 1) break;
+    if (player.position === boardSize || player.position === 0) break;
   }
 
   state.movingPlayerIndex = null;
@@ -502,14 +512,14 @@ function createQuestion() {
 
 function createAddition(maxAnswer) {
   const answer = randomInt(2, maxAnswer);
-  const a = randomInt(0, answer);
+  const a = randomInt(1, answer - 1);
   const b = answer - a;
   return withChoices(`${a} + ${b} = ?`, answer);
 }
 
 function createSubtraction(maxNumber) {
-  const a = randomInt(0, maxNumber);
-  const b = randomInt(0, a);
+  const a = randomInt(2, maxNumber);
+  const b = randomInt(1, a - 1);
   return withChoices(`${a} - ${b} = ?`, a - b);
 }
 
